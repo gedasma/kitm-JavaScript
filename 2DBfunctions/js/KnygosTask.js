@@ -1,4 +1,4 @@
-const Books={
+const books={
     Grozines:[
         {
             isbn: "9786098254037",
@@ -79,26 +79,30 @@ const Books={
     ]
 }
 
-for(category in Books){
-    console.log(`${category} (${Books[category].length} knygu)`)
+for(category in books){
+    console.log(`${category} (${books[category].length} knygu)`)
     console.log(":")
-    for(book in Books[category])
+    for(book in books[category])
     {
-        PrintBook(Books[category][book])
+        PrintBook(books[category][book])
     }
-
 }
 
 function PrintBook(book)
 {
     console.log(` ISBN: ${book.isbn}`)
-    releaseYearMessage = ` Leidimo metai: ${book.releaseYear}`
-    if(book.releaseYear == new Date().getFullYear())
-    {
-        releaseYearMessage += " (nauja knyga)"
-    }
-    console.log(releaseYearMessage)
+    console.log(BookReleaseYearMessage(book.releaseYear))
     console.log(` Pavadinimas: ${book.name}`)
     console.log(` Puslapiu skaicius: ${book.pageAmount}`)
     console.log()
+}
+
+function BookReleaseYearMessage(releaseYear)
+{
+    releaseYearMessage = ` Leidimo metai: ${releaseYear}`
+    if(releaseYear == new Date().getFullYear())
+    {
+        releaseYearMessage += " (nauja knyga)"
+    }
+    return releaseYearMessage
 }

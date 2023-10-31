@@ -80,13 +80,15 @@ const books={
 }
 
 for(category in books){
-    console.log(`${category} (${books[category].length} knygu)`)
-    console.log(":")
+    // console.log(`${category} (${books[category].length} knygu)`)
+    // console.log(":")
     for(book in books[category])
     {
-        PrintBook(books[category][book])
+        // PrintBook(books[category][book])
     }
 }
+
+CreateAcordionItem("headeris", 1)
 
 function PrintBook(book)
 {
@@ -105,4 +107,39 @@ function BookReleaseYearMessage(releaseYear)
         releaseYearMessage += " (nauja knyga)"
     }
     return releaseYearMessage
+}
+
+function CreateAcordionItem(headerText, itemNumber){
+    let item = document.createElement("div")
+    item.classList.add("accordion-item")
+
+    let header = document.createElement("h2")
+    header.classList.add("accordion-header")
+
+    let button = document.createElement("button")
+    button.classList.add("accordion-button")
+    button.type = "button"
+    button.setAttribute("data-bs-toggle", "collapse")
+    button.setAttribute("data-bs-target",`#collapse${itemNumber}`)
+    button.setAttribute("aria-expanded","true")
+    button.setAttribute("aria-controls",`collapse${itemNumber}`)
+    button.textContent = headerText
+
+    header.appendChild(button)
+
+    let content = document.createElement("div")
+    content.id = `collapse${itemNumber}`
+    content.classList.add("accordion-collapse", "collapse")
+    content.setAttribute("data-bs-parent", "#accordionExample")
+
+    let contentBody = document.createElement("div")
+    contentBody.classList.add("accordion-body")
+    contentBody.textContent = "test"
+    
+    content.appendChild(contentBody)
+    
+    item.appendChild(header)
+    item.appendChild(content)
+
+    document.querySelector('.accordion').appendChild(item)
 }

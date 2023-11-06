@@ -121,7 +121,7 @@ function CreateAcordionItem(headerText, itemNumber){
     button.type = "button"
     button.setAttribute("data-bs-toggle", "collapse")
     button.setAttribute("data-bs-target",`#collapse${itemNumber}`)
-    button.setAttribute("aria-expanded","true")
+    button.setAttribute("aria-expanded","false")
     button.setAttribute("aria-controls",`collapse${itemNumber}`)
     button.textContent = headerText
 

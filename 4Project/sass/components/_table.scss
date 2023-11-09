@@ -1,0 +1,31 @@
+@import "../var";
+@import "../../bootstrap/scss/bootstrap.scss";
+
+.toDoTable{
+    &__head{
+        tr{
+            th{
+                font-weight: bold;
+                background-color: $headerColor;
+                border-width: var(--bs-border-width);
+                
+            }
+            
+        }
+    }
+    &__body{
+        &__type{
+            width: 3rem;
+            div{
+                background-color: $completedProgressColor;
+                width: max-content;
+                border-radius: 50%;
+                padding: 0.3rem;
+            }
+            
+        }
+        &__subject{
+            margin: 0 auto;
+        }
+    }
+}

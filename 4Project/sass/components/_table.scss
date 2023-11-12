@@ -14,18 +14,70 @@
         }
     }
     &__body{
-        &__type{
-            width: 3rem;
-            div{
-                background-color: $completedProgressColor;
-                width: max-content;
-                border-radius: 50%;
-                padding: 0.3rem;
+        .tableRow{
+            display: none;
+            &__type{
+                width: 3rem;
+                &__content{
+                    background-color: $completedProgressColor;
+                    width: max-content;
+                    border-radius: 50%;
+                    padding: 0.3rem;
+                }
+
             }
-            
-        }
-        &__subject{
-            margin: 0 auto;
+            &__subject{
+                &__content{
+                    width: max-content;
+                        &--completed, &:hover{
+                            text-decoration: line-through;
+                            color: $disabledColor;
+                            img{
+                                filter: invert(98%) sepia(0%) saturate(0%) hue-rotate(223deg) brightness(85%) contrast(98%);
+                            }
+                        }
+                }
+            }
+            &__priority{
+                &__content{
+                    width: max-content;
+                    padding: 0.3rem 1rem;
+                    border-radius: 30px;
+                    &--low{
+                        background-color: $lowPriorityColor;
+                    }
+                    &--normal{
+                        background-color: $noramlPriorityColor;
+                    }
+                    &--high{
+                        background-color: $highPriorityColor;
+                    }
+                }
+
+            }
+            &__percent{
+                &__content{
+                    display: flex;
+                    &__bar{
+                        margin: 0.2rem 0 0.2rem 0.5rem;
+                        flex: 1;
+                        height: auto;
+                        border-radius: 0.6rem;
+                    }
+                }
+            }
+            &__delete{
+                &__content{
+                    margin: auto;
+                    background-color: $headerColor;
+                    padding: 0.5rem 1rem;
+                    border-radius: 1rem;
+                }
+                &__content:hover{
+                    transform: scale(1.05);
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }

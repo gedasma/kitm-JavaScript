@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <form class="createForm">
+    <div>
+      <label for="type">Type:</label>
+      <select name="type" id="type">
+        <option value="checkmark">Checkmark</option>
+        <option value="diamond">Diamond</option>
+      </select>
+    </div>
+    <div class="subject">
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject">
+    </div>
+    <div>
+      <label for="priority">Priority:</label>
+      <select name="priority" id="priority">
+        <option value="low">Low</option>
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+    <div>
+      <label for="dueDate">Due date</label>
+      <input type="date" id="dueDate" name="dueDate">
+    </div>
+    <button>Create Row</button>
+  </form>
     <table class="table table-responsive toDoTable">
         <thead class="toDoTable__head">
           <tr>
@@ -17,34 +43,61 @@
             <th scope="col">Status</th>
             <th scope="col">Percent completed</th>
             <th scope="col">Modified on</th>
+            <th scope="col">Remove</th>
           </tr>
         </thead>
         <tbody class="toDoTable__body">
-          <tr>
-            <th class="toDoTable__body__type"><div class="icon"><img src="resources/check-mark-square.svg" alt=""></div></td>
-            <td class="toDoTable__body__subject"><div class="icon"><img src="resources/tick-green-icon.svg" alt="">Mark</div></td>
-            <td class="toDoTable__body__priority">Otto</td>
-            <td class="toDoTable__body__dueDate">Otto</td>
-            <td class="toDoTable__body__status">Otto</td>
-            <td class="toDoTable__body__percent">Otto</td>
-            <td class="toDoTable__body__modifiedDate">Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+          <tr class="tableRow">
+            <th class="tableRow__type">
+              <div class="tableRow__type__content icon">
+                <img src="resources/check-mark-square.svg" alt="">
+              </div>
+            </td>
+            <td class="tableRow__subject">
+              <div class="tableRow__subject__content icon">
+                <img src="resources/tick-green-icon.svg" alt="">
+                <span>Launch New Website</span>
+              </div>
+            </td>
+            <td class="tableRow__priority">
+              <div class="tableRow__priority__content">
+                Otto
+              </div>
+            </td>
+            <td class="tableRow__dueDate">
+              <div class="tableRow__dueDate__content">
+                04/06/2018
+              </div>
+            </td>
+            <td class="tableRow__status">
+              <div class="tableRow__status__content">
+                Complete
+              </div>
+            </td>
+            <td class="tableRow__percent">
+              <div class="tableRow__percent__content">
+                <span>100%</span>
+                <div class="tableRow__percent__content__bar progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </td>
+            <td class="tableRow__modifiedDate">
+              <div class="tableRow__modifiedDate__content">
+                04/05/2018 01:51PM
+              </div>
+            </td>
+            <td class="tableRow__delete">
+              <button class="tableRow__delete__content">
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
       
 
       <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="js/app.js"></script>
 </body>
 </html>

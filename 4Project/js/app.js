@@ -1,8 +1,8 @@
 let tasks = rowGetLocalStorage()
 
-for (let taskId = 0; taskId < tasks.length; taskId++)
+for (let task of tasks)
 {
-    addTaskToDOM(taskId, tasks[taskId])
+    addTaskToDOM(task)
 }
 
 createForm = document.querySelector(".createForm")
@@ -28,7 +28,7 @@ addButton.addEventListener('click', (event)=>{
     tasks.push(task)
     taskId = tasks.length-1
     rowSaveToLocalStorage(tasks)
-    addTaskToDOM(taskId, task)
+    addTaskToDOM(task)
 })
 
 function rowGetLocalStorage()
@@ -69,17 +69,13 @@ function rowSetTaskComplete(row, boolValue)
 function rowSetTaskStatus(row, boolValue)
 {
     let setClass = "tableRow__subject__content"
-    
     let rowContent = row.querySelector("." + setClass)
-    
     let subjectCompleteClass = "--completed"
-    
+
     if(boolValue){
         rowContent.classList.add(setClass + subjectCompleteClass)
     }
-    
-    else if(row.classList.contains(setClass + subjectCompleteClass)){
-        console.log("happens")
+    else if(rowContent.classList.contains(setClass + subjectCompleteClass)){
         rowContent.classList.remove(setClass + subjectCompleteClass)
     }
 
@@ -87,7 +83,6 @@ function rowSetTaskStatus(row, boolValue)
 
 function rowSetSubject(row, subject)
 {
-    console.log(subject)
     rowSetSubjectText(row, subject.text)
     rowSetTaskStatus(row, subject.isComplete)
 }
@@ -98,17 +93,15 @@ function rowSetSubjectText(row, text)
     rowSubjectText.textContent = text
 }
 
-// function rowSetSubjectComplete(row, boolValue)
-// {
-//     let setClass = "tableRow__subject__content"
-//     let rowContent = row.querySelector("." + setClass + '> span')
-//     rowContent.textContent = text
-// }
-
 function rowSetPriority(row, priorityType)
 {
     let setClass = "tableRow__priority__content"
     let rowContent = row.querySelector("." + setClass)
+
+    rowContent.classList.remove(setClass + `--${"low"}`)
+    rowContent.classList.remove(setClass + `--${"normal"}`)
+    rowContent.classList.remove(setClass + `--${"high"}`)
+
     rowContent.textContent = priorityType.charAt(0).toUpperCase() + priorityType.slice(1);
     rowContent.classList.add(setClass + `--${priorityType}`)
 }
@@ -164,9 +157,10 @@ function rowSetNewModifiedDate(row)
 
 function rowCreate(type, subject, priority, dueDate, percent)
 {
-    let originalRow = document.querySelector('.tableRow')
+    tableRowClass = "tableRow"
+    let originalRow = document.querySelector('.' + tableRowClass)
     let newRow = originalRow.cloneNode(true)
-    newRow.style.display = 'table-row';
+    newRow.classList.remove(tableRowClass + "--base")
 
     if(type == 'checkmark'){
         rowSetType(newRow, "resources/check-mark-square.svg")
@@ -174,7 +168,6 @@ function rowCreate(type, subject, priority, dueDate, percent)
     else if(type == 'diamond'){
         rowSetType(newRow, "resources/diamond.svg")
     }
-    // rowSetSubjectText(newRow, subject.text)
     rowSetSubject(newRow, subject)
     rowSetPriority(newRow,priority)
     rowSetDueDate(newRow, dueDate)
@@ -184,37 +177,57 @@ function rowCreate(type, subject, priority, dueDate, percent)
     return newRow
 }
 
-function addTaskToDOM(taskId, task)
+function addTaskToDOM(task)
 {
     let row = rowCreate(task.type, task.subject, task.priority, task.dueDate, task.percent)
-    rowAddClickEvents(taskId, row)
+    rowAddClickEvents(row)
 
     let tableBody = document.querySelector('.toDoTable__body')
     tableBody.appendChild(row)
 }
 
-function rowAddClickEvents(taskId, row)
+function rowAddClickEvents(row)
 {
-    //type button 
+    //type button
     rowSubjectContent = row.querySelector(".tableRow__type__content")
     rowSubjectContent.addEventListener('click', ()=>{
-        // console.log(tasks)
-        if(tasks[taskId].subject.isComplete == false){
-            tasks[taskId].subject.isComplete = true
+        let rowList = row.parentElement; //gets all rows
+        let rowIndex = Array.from(rowList.children).indexOf(row) - 1; // gets index of row, -1 because of the base row
+        if(tasks[rowIndex].subject.isComplete == false){
+            tasks[rowIndex].subject.isComplete = true
         }
         else{
-            console.log("test")
-            tasks[taskId].subject.isComplete = false
+            tasks[rowIndex].subject.isComplete = false
         }
-        // console.log(tasks)
         rowSaveToLocalStorage(tasks)
-        rowSetSubject(row, tasks[taskId].subject)
+        rowSetSubject(row, tasks[rowIndex].subject)
+    })
+
+    //priority button
+    priorityContentClass = 'tableRow__priority__content'
+    rowPriorityButton = row.querySelector("." + priorityContentClass)
+    rowPriorityButton.addEventListener('click', ()=>{
+        let rowList = row.parentElement; //gets all rows
+        let rowIndex = Array.from(rowList.children).indexOf(row) - 1; // gets index of row, -1 because of the base row
+        if(tasks[rowIndex].priority == "low"){
+            tasks[rowIndex].priority = "normal"
+        }
+        else if(tasks[rowIndex].priority == "normal"){
+            tasks[rowIndex].priority = "high"
+        }
+        else if(tasks[rowIndex].priority == "high"){
+            tasks[rowIndex].priority = "low"
+        }
+        rowSaveToLocalStorage(tasks)
+        rowSetPriority(row, tasks[rowIndex].priority)
     })
 
     //delete button
     rowDeleteButton = row.querySelector('.tableRow__delete__content')
     rowDeleteButton.addEventListener('click', ()=>{
-        tasks.splice(taskId, 1);
+        let rowList = row.parentElement; //gets all rows
+        let rowIndex = Array.from(rowList.children).indexOf(row) - 1; // gets index of row, -1 because of the base row
+        tasks.splice(rowIndex, 1);
         rowSaveToLocalStorage(tasks)
         row.remove()
     })

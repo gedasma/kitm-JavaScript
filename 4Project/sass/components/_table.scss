@@ -15,7 +15,9 @@
     }
     &__body{
         .tableRow{
-            display: none;
+            &--base{
+                display: none;
+            }
             &__type{
                 width: 3rem;
                 &__content{

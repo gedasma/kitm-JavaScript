@@ -9,27 +9,26 @@
 <body>
   <form class="createForm">
     <div>
-      <label for="type">Type:</label>
-      <select name="type" id="type">
+      <label class="createForm__label" for="type">Type:</label>
+      <select class="createForm__input" name="type" id="type">
         <option value="checkmark">Checkmark</option>
         <option value="diamond">Diamond</option>
       </select>
     </div>
-    <div class="subject">
-      <label for="subject">Subject:</label>
-      <input type="text" id="subject" name="subject">
+    <div>
+      <input class="createForm__input" type="text" id="subject" name="subject" placeholder="Subject">
     </div>
     <div>
-      <label for="priority">Priority:</label>
-      <select name="priority" id="priority">
+      <label class="createForm__label" for="priority">Priority:</label>
+      <select class="createForm__input" name="priority" id="priority">
         <option value="low">Low</option>
         <option value="normal">Normal</option>
         <option value="high">High</option>
       </select>
     </div>
     <div>
-      <label for="dueDate">Due date</label>
-      <input type="date" id="dueDate" name="dueDate">
+      <label class="createForm__label" for="dueDate">Due date</label>
+      <input class="createForm__input" type="date" id="dueDate" name="dueDate">
     </div>
     <button>Create Row</button>
   </form>

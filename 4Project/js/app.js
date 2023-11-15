@@ -5,6 +5,7 @@ for (let task of tasks)
     addTaskToDOM(task)
 }
 
+//create new task
 createForm = document.querySelector(".createForm")
 addButton = createForm.querySelector("button")
 addButton.addEventListener('click', (event)=>{
@@ -24,6 +25,7 @@ addButton.addEventListener('click', (event)=>{
     task.priority = rowPriority
     task.dueDate = rowDueDate
     task.percent = 0
+    task.modDate = getCurrentDate()
 
     tasks.push(task)
     taskId = tasks.length-1
@@ -113,7 +115,7 @@ function rowSetDueDate(row, date)
     rowContent.textContent = date
 }
 
-function rowSetStatusBar(row, percent)
+function rowSetPercentBar(row, percent)
 {
     let setClass = "tableRow__percent__content"
     let rowContent = row.querySelector("." + setClass)
@@ -139,23 +141,32 @@ function rowSetStatus(row, text)
     rowContent.textContent = text
 }
 
-function rowSetNewModifiedDate(row)
+function rowSetNewModifiedDate(row, date)
 {
     let setClass = "tableRow__modifiedDate__content"
     let rowContent = row.querySelector("." + setClass)
-    
-    let currentDate = new Date()
-    let year = currentDate.getFullYear();
-    let month = currentDate.getMonth() + 1;
-    let day = currentDate.getDate();
-    let hours = currentDate.getHours();
-    let minutes = currentDate.getMinutes();
-    date = `${day}/${month}/${year} ${hours}:${minutes}`
-
     rowContent.textContent = date
 }
 
-function rowCreate(type, subject, priority, dueDate, percent)
+function getCurrentDate()
+{
+    let currentDate = new Date()
+    let year = currentDate.getFullYear();
+    let month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
+    let day = currentDate.getDate();
+    let hours = currentDate.getHours().toString().padStart(2, '0')
+    let minutes = currentDate.getMinutes().toString().padStart(2, '0')
+    return `${day}/${month}/${year} ${hours}:${minutes}`
+}
+
+function rowUpdateModDate(row, rowIndex)
+{
+    let updatDate = getCurrentDate()
+    tasks[rowIndex].modDate = updatDate
+    rowSetNewModifiedDate(row, updatDate)
+}
+
+function rowCreate(type, subject, priority, dueDate, percent, modDate)
 {
     tableRowClass = "tableRow"
     let originalRow = document.querySelector('.' + tableRowClass)
@@ -171,19 +182,39 @@ function rowCreate(type, subject, priority, dueDate, percent)
     rowSetSubject(newRow, subject)
     rowSetPriority(newRow,priority)
     rowSetDueDate(newRow, dueDate)
-    rowSetStatusBar(newRow, percent)
-    rowSetNewModifiedDate(newRow)
+    rowSetPercentBar(newRow, percent)
+    rowSetNewModifiedDate(newRow, modDate)
 
     return newRow
 }
 
 function addTaskToDOM(task)
 {
-    let row = rowCreate(task.type, task.subject, task.priority, task.dueDate, task.percent)
+    let row = rowCreate(task.type, task.subject, task.priority, task.dueDate, task.percent, task.modDate)
     rowAddClickEvents(row)
 
     let tableBody = document.querySelector('.toDoTable__body')
     tableBody.appendChild(row)
+}
+
+function askUserInput(promptMessage)
+{
+    let userInput = prompt(promptMessage); 
+        if (userInput != null) { 
+            return userInput
+        }
+        else{
+            return askUserInput(promptMessage)
+        }
+}
+
+function askProgressPercent(promptMessage)
+{
+    let userInput = askUserInput(promptMessage)
+    if(parseInt(userInput) == userInput && userInput >= 0 && userInput <= 100){
+        return userInput
+    }
+    return askProgressPercent("Incorrect input please enter a number between 1 and 100")
 }
 
 function rowAddClickEvents(row)
@@ -199,6 +230,7 @@ function rowAddClickEvents(row)
         else{
             tasks[rowIndex].subject.isComplete = false
         }
+        rowUpdateModDate(row, rowIndex)
         rowSaveToLocalStorage(tasks)
         rowSetSubject(row, tasks[rowIndex].subject)
     })
@@ -218,8 +250,21 @@ function rowAddClickEvents(row)
         else if(tasks[rowIndex].priority == "high"){
             tasks[rowIndex].priority = "low"
         }
+        rowUpdateModDate(row, rowIndex)
         rowSaveToLocalStorage(tasks)
         rowSetPriority(row, tasks[rowIndex].priority)
+    })
+
+    //progress bar update
+    rowProgresButton = row.querySelector('.tableRow__percent__content')
+    rowProgresButton.addEventListener('click', ()=>{
+        let rowList = row.parentElement; //gets all rows
+        let rowIndex = Array.from(rowList.children).indexOf(row) - 1; // gets index of row, -1 because of the base row
+        let newPercent = askProgressPercent("Please enter new progress percent.")
+        tasks[rowIndex].percent = newPercent
+        rowUpdateModDate(row, rowIndex)
+        rowSaveToLocalStorage(tasks)
+        rowSetPercentBar(row, newPercent)
     })
 
     //delete button

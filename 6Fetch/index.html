@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <section class="container">
+        <h2>Filmo paieska</h2>
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control m-5" name="movieName" id="movieName" placeholder="ivesk filmo pavadinima">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary m-3">Paieska</button>
+            </div>
+        </form>
+    </section>
+    <main>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>Pavadinimas</th>
+                    <th>Trukme</th>
+                    <th>Rezisierius</th>
+                    <th>Metai</th>
+                    <th>IMDB reitingas</th>
+                    <th>Kita</th>
+                    <th>Plakatas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="title"></td>
+                    <td class="time"></td>
+                    <td class="director"></td>
+                    <td class="year"></td>
+                    <td class="imdb"></td>
+                    <td class="other"></td>
+                    <td class="poster"><img class="img-thumbnail" src="" alt=""></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <section class="places">
+        <!-- 
+            skurkite su js datalist kuriame butu visos lietuvos vietoves
+            duomenys yra siame servise:
+            https://api.meteo.lt/v1/places
+         -->
+        <input list = "places" placeholder="Iveskite vietove">
+        <datalist id="places">
+        </datalist>
+    </section>
+    <script src="js/script.js"></script>
+</body>
+</html>

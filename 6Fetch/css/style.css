@@ -1,0 +1,9 @@
+table{
+    display: none;
+}
+.enableDisplay{
+    display: table;
+}
+.poster{
+    width: 15rem;
+}

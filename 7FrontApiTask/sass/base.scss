@@ -1,0 +1,16 @@
+html{
+    height: 100%;
+}
+body {
+    background: linear-gradient(90deg, #FFA230, #F16701);
+}
+.container{
+    margin-top: 5%;
+}
+.carousel-indicators [data-bs-target] {
+    background-color: darkgray;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon{
+    filter: brightness(0) saturate(100%) invert(0%) sepia(98%) saturate(0%) hue-rotate(224deg) brightness(109%) contrast(100%);
+}

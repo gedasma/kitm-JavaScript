@@ -1,0 +1,27 @@
+.quoteContainer{
+    &__card{
+        background: white;
+        // margin: 2rem 15%;
+        &__content{
+            padding: 2rem 15% calc(23px + 1rem) 15%;
+            padding-bottom: 3.5rem;
+            min-height: 12rem;
+            p{
+                font-style: italic;
+                img{
+                    height: 1.2rem;
+                    padding-right: 0.4rem;
+                    filter: brightness(0) saturate(100%) invert(69%) sepia(95%) saturate(1133%) hue-rotate(334deg) brightness(101%) contrast(100%);
+                }
+            }
+            h5{
+                font-size: 0.7rem;
+                color: darkgray;
+            }
+        }
+        &--base{
+            display: none;
+        }
+    }
+    
+}

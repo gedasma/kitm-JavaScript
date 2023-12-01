@@ -1,0 +1,7 @@
+"npm i bootstrap" to install bootstrap and add "@import '~bootstrap'" to style.scss
+
+"npm i" to install all packages
+
+"npx mix" to compile everything
+
+"npx mix watch" to attach watcher

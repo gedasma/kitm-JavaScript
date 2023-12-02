@@ -1,13 +1,73 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/app.js":
 /*!********************!*\
   !*** ./src/app.js ***!
   \********************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_searchCode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/searchCode */ "./src/modules/searchCode.js");
 
+(0,_modules_searchCode__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+/***/ }),
+
+/***/ "./src/modules/dataFetchService.js":
+/*!*****************************************!*\
+  !*** ./src/modules/dataFetchService.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var dataFetchService = function dataFetchService(city) {
+  return fetch("https://api.meteo.lt/v1/places/".concat(city, "/forecasts/long-term")).then(function (Response) {
+    return Response.json();
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (dataFetchService);
+
+/***/ }),
+
+/***/ "./src/modules/searchCode.js":
+/*!***********************************!*\
+  !*** ./src/modules/searchCode.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _dataFetchService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataFetchService */ "./src/modules/dataFetchService.js");
+
+var searchCode = function searchCode() {
+  document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var city = document.querySelector('.city').value;
+    var searchResponse;
+    (0,_dataFetchService__WEBPACK_IMPORTED_MODULE_0__["default"])(city).then(function (result) {
+      return searchResponse = result;
+    }).then(function () {
+      console.log(searchResponse);
+      if (searchResponse.hasOwnProperty('forecastTimestamps') && searchResponse.forecastTimestamps.length > 0) {
+        console.log("data fetch success!");
+        // document.querySelector('.message').textContent = ""
+        // document.querySelector('.result').value = searchResponse.data[0].post_code
+      } else if (searchResponse.error.code = 404) {
+        console.log("data fetch failed!");
+        // document.querySelector('.result').value = ""
+        // document.querySelector('.message').textContent = "tokio adreso nera!"
+      }
+    });
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchCode);
 
 /***/ }),
 
@@ -17,7 +77,6 @@
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -83,6 +142,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	

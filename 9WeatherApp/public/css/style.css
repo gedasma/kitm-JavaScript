@@ -11976,3 +11976,11 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: linear-gradient(0deg, #000 0%, #000 100%), #FFF;
+}

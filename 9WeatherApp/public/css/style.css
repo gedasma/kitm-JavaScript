@@ -11976,6 +11976,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+@font-face {
+  font-family: PingFang;
+  src: url(/fonts/PingFangRegular.ttf?8e752fd0ad0ea39bc21620d8203cfe30);
+}
 html, body {
   height: 100%;
   width: 100%;
@@ -11983,4 +11987,115 @@ html, body {
 
 body {
   background: linear-gradient(0deg, #000 0%, #000 100%), #FFF;
+}
+
+.accordion {
+  background-color: #121212;
+  --bs-accordion-active-color: ;
+}
+
+.accordion-item {
+  background-color: #121212; /* Background color for each accordion item */
+  border: 0px;
+  border-radius: 16px;
+  padding: 0 0 1rem 0;
+}
+
+.accordion-header {
+  background-color: #121212; /* Background color for the accordion header */
+}
+
+.accordion-button {
+  background-color: #121212;
+  padding: 0.5rem 0.5rem 0 0.5rem;
+}
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: #121212;
+}
+.accordion-button:not(.collapsed) {
+  background-color: #212529;
+  border-color: #212529;
+  box-shadow: none;
+}
+
+.accordion-body {
+  background-color: #212529;
+}
+
+.accordion-collapse {
+  background-color: #121212; /* Background color for the content of each accordion item */
+}
+
+.accordion-button::after {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%) hue-rotate(144deg) brightness(109%) contrast(101%);
+}
+
+@font-face {
+  font-family: PingFang;
+  src: url(/fonts/PingFangRegular.ttf?8e752fd0ad0ea39bc21620d8203cfe30);
+}
+.cityCard {
+  border-radius: 16px;
+  border: 1px solid var(--light-pop-boder, rgba(255, 255, 255, 0.15));
+  box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(40px);
+          backdrop-filter: blur(40px);
+  overflow: hidden;
+  padding: 30px;
+  background-color: #121212;
+}
+.cityCard__deleteCity {
+  width: -moz-min-content;
+  width: min-content;
+  margin-bottom: 0.2rem;
+}
+.cityCard__cityName {
+  color: #FFF;
+}
+.cityCard__day {
+  gap: 1rem;
+}
+.cityCard__day__weekDay, .cityCard__day__dayTemperature, .cityCard__day__nightTemperature {
+  color: #FFF;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+.cityCard__day__conditionImage {
+  padding-left: 1.5rem;
+  padding-right: 2.375rem;
+}
+.cityCard__day__conditionImage img {
+  width: 36px;
+  height: 36px;
+}
+.cityCard__day__nightTemperature {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.dayContent {
+  display: flex;
+  gap: 36px;
+}
+.dayContent__hour {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.dayContent__hour__time {
+  color: #FFF;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+.dayContent__hour__conditionImage img {
+  width: 36px;
+  height: 36px;
+}
+.dayContent__hour__temperature {
+  color: #FFF;
+  font-size: 1.25rem;
+  font-weight: 600;
 }

@@ -1,10 +1,51 @@
 @import '../scss/var';
 
-
 html, body{
     height: 100%;
     width: 100%;
 }
 body{
     background: $backGroundGradient;
+}
+
+.accordion {
+    background-color: $cardBackground;
+    --bs-accordion-active-color:
+}
+
+.accordion-item {
+    background-color: $cardBackground;
+    border: 0px;
+    border-radius: 16px;
+    padding: 0 0 1rem 0;
+}
+
+.accordion-header {
+    background-color: $cardBackground;
+}
+
+.accordion-button {
+    background-color: $cardBackground;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    &:focus{
+        box-shadow: none;
+        border-color: $cardBackground;
+    }
+    &:not(.collapsed)
+    {
+        background-color: $cardHighlightColor;
+        border-color: $cardHighlightColor;
+        box-shadow: none;
+    }
+}
+.accordion-body{
+    background-color: $cardHighlightColor;
+}
+
+.accordion-collapse {
+    background-color: $cardBackground;
+}
+
+.accordion-button::after{
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%) hue-rotate(144deg) brightness(109%) contrast(101%);
 }

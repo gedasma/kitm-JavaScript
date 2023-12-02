@@ -1,0 +1,27 @@
+.dayContent{
+    display: flex;
+    gap: 36px;
+    &__hour{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        &__time{
+            color: $cardTextColor;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 20px; /* 125% */
+        }
+        &__conditionImage{
+            img{
+                width: 36px;
+                height: 36px;
+            }
+        }
+        &__temperature{
+            color: $cardTextColor;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,1 +1,14 @@
+@font-face{
+    font-family: PingFang;
+    src: url(../assets/PingFangRegular.ttf);
+}
+
+
 $backGroundGradient: linear-gradient(0deg, #000 0%, #000 100%), #FFF;
+
+$cardBackground: #121212;
+$cardHighlightColor: #212529;
+
+$cardTextColor: #FFF;
+$cardNightTextColor: rgba(255, 255, 255, 0.68);;
+

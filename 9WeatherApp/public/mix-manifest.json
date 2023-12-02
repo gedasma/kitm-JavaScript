@@ -1,4 +1,7 @@
 {
     "/app.js": "/app.js",
-    "/css/style.css": "/css/style.css"
+    "/css/style.css": "/css/style.css",
+    "/assets/cloudSun.png": "/assets/cloudSun.png",
+    "/assets/PingFang Regular.ttf": "/assets/PingFang Regular.ttf",
+    "/assets/PingFangRegular.ttf": "/assets/PingFangRegular.ttf"
 }

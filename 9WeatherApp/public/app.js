@@ -32,31 +32,25 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   cityCardBase: () => (/* binding */ cityCardBase),
-/* harmony export */   cityWeekDayComponent: () => (/* binding */ cityWeekDayComponent),
-/* harmony export */   createCityCard: () => (/* binding */ createCityCard),
-/* harmony export */   createCityCardBase: () => (/* binding */ createCityCardBase),
-/* harmony export */   createCityWeekDayRow: () => (/* binding */ createCityWeekDayRow),
-/* harmony export */   hourOfDayComponent: () => (/* binding */ hourOfDayComponent)
+/* harmony export */   createCityCard: () => (/* binding */ createCityCard)
 /* harmony export */ });
 /* harmony import */ var _valueResolver__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./valueResolver */ "./src/modules/valueResolver.js");
 
 var createCityCard = function createCityCard(cityApiResponse) {
   var cityCard = createCityCardBase(cityApiResponse.place.name);
-  console.log((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.weekNumberToWord)(0));
   var weekDayHolder = cityCard.querySelector('.accordion');
   for (var i = 0; i <= 6; i++) {
     weekDayHolder.appendChild(createCityWeekDayRow(cityApiResponse, i));
   }
   document.querySelector(".background").appendChild(cityCard);
 };
-var createCityCardBase = function createCityCardBase(city) {
+function createCityCardBase(city) {
   var cityCard = document.createElement('div');
   cityCard.classList.add('cityCard', 'container');
   cityCard.innerHTML = cityCardBase(city);
   return cityCard;
-};
-var createCityWeekDayRow = function createCityWeekDayRow(cityApiResponse, weekDay) {
+}
+function createCityWeekDayRow(cityApiResponse, weekDay) {
   var dayRow = document.createElement('div');
   dayRow.classList.add('accordion-item');
   var dayStartingHours = new Date();
@@ -72,18 +66,36 @@ var createCityWeekDayRow = function createCityWeekDayRow(cityApiResponse, weekDa
     dayTemp: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, dayStartingHours.getHours(), dayEndingHours.getHours()),
     nightTemp: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, nightStartingHours.getHours(), nightEndingHours.getHours())
   };
-  console.log("for day ".concat(weekDay, " average is ").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, dayStartingHours, dayEndingHours)));
   dayRow.innerHTML = cityWeekDayComponent(cityApiResponse.place.name, weekDay, dayInfo);
+  var hourHolder = dayRow.querySelector(".dayContent");
+  fillDayContent(dayRow, cityApiResponse, weekDay);
   return dayRow;
-};
+}
+function fillDayContent(dayRow, cityApiResponse, weekDay) {
+  var weekDayTimesStamps = (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.get8TimeForWeekDay)(cityApiResponse, weekDay);
+  for (var hourComponentIndex = 0; hourComponentIndex < weekDayTimesStamps.length; hourComponentIndex++) {
+    var hourInfo = {
+      time: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.convertDateToEET)(weekDayTimesStamps[hourComponentIndex].forecastTimeUtc).getHours(),
+      conditionCode: weekDayTimesStamps[hourComponentIndex].conditionCode,
+      tempreture: weekDayTimesStamps[hourComponentIndex].airTemperature
+    };
+    dayRow.querySelector(".dayContent").appendChild(createDayComponent(hourInfo.time + ":00", hourInfo.conditionCode, hourInfo.tempreture));
+  }
+}
+function createDayComponent(time, conditionCode, temperature) {
+  var hourComponent = document.createElement('div');
+  hourComponent.classList.add('dayContent__hour');
+  hourComponent.innerHTML = hourOfDayComponent(time, conditionCode, temperature);
+  return hourComponent;
+}
 var cityCardBase = function cityCardBase(city) {
   return "\n      <div class=\"row justify-content-between\">\n          <h2 class=\"cityCard__cityName col-6\">".concat(city, "</h2>\n          <button type=\"button\"class=\"cityCard__deleteCity btn btn-secondary col-6\">Remove</button>\n      </div>\n      <div class=\"accordion\" id=\"accordion").concat(city, "\">\n      </div>\n    ");
 };
 var cityWeekDayComponent = function cityWeekDayComponent(city, weekDay, dayInfo) {
   return "\n    <div class=\"accordion-item\">\n      <h2 class=\"accordion-header\">\n        <button class=\"accordion-button collapsed cityCard__day\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse".concat(city).concat(weekDay, "\" aria-expanded=\"false\" aria-controls=\"collapse").concat(city).concat(weekDay, "\">      \n          <h3 class=\"cityCard__day__weekDay\">").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.weekNumberToWord)(weekDay), "</h3>\n          <div class=\"cityCard__day__conditionImage\"><img src=\"").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.conditionCodeToImage)(dayInfo.conditionCode), "\" alt=\"\"></div>\n          <h3 class=\"cityCard__day__dayTemperature\">").concat(dayInfo.dayTemp, "\xB0</h3>\n          <h3 class=\"cityCard__day__nightTemperature\">").concat(dayInfo.nightTemp, "\xB0</h3>        \n        </button>\n      </h2>\n        <div id=\"collapse").concat(city).concat(weekDay, "\" class=\"accordion-collapse collapse\" data-bs-parent=\"#accordion").concat(city, "\">\n        <div class=\"accordion-body dayContent\">\n           \n        </div>\n      </div>\n    </div>\n    ");
 };
-var hourOfDayComponent = function hourOfDayComponent() {
-  return "\n    <div class=\"dayContent__hour\">\n        <h4 class=\"dayContent__hour__time\">Now</h4>\n        <div class=\"dayContent__hour__conditionImage\">\n            <img src=\"assets/cloudSun.png\" alt=\"\">\n        </div>\n        <h4 class=\"dayContent__hour__temperature\">18\xB0</h4>\n    </div>\n    ";
+var hourOfDayComponent = function hourOfDayComponent(time, conditionCode, temperature) {
+  return "\n      <h4 class=\"dayContent__hour__time\">".concat(time, "</h4>\n      <div class=\"dayContent__hour__conditionImage\">\n        <img src=\"").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.conditionCodeToImage)(conditionCode), "\" alt=\"\">\n      </div>\n      <h4 class=\"dayContent__hour__temperature\">").concat(temperature, "\xB0</h4>\n    ");
 };
 
 /***/ }),
@@ -258,10 +270,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   averageTempInRange: () => (/* binding */ averageTempInRange),
 /* harmony export */   conditionCodeToImage: () => (/* binding */ conditionCodeToImage),
+/* harmony export */   convertDateToEET: () => (/* binding */ convertDateToEET),
+/* harmony export */   get8TimeForWeekDay: () => (/* binding */ get8TimeForWeekDay),
 /* harmony export */   getCommonDayCoditionCode: () => (/* binding */ getCommonDayCoditionCode),
 /* harmony export */   weekNumberToWord: () => (/* binding */ weekNumberToWord)
 /* harmony export */ });
-var timeZoneModifier = 2 * 60 * 60 * 1000;
 function weekNumberToWord(weekDay) {
   var currentDate = new Date();
   if (weekDay == currentDate.getDay()) {
@@ -310,7 +323,7 @@ function getCommonDayCoditionCode(cityApiResponse, weekDay) {
   var stringOccourances = {};
   var timeStamps = cityApiResponse.forecastTimestamps;
   for (var timeStamp = 0; timeStamps.length > timeStamp; timeStamp++) {
-    if (ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay) {
+    if (convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay) {
       stringOccourances[timeStamps[timeStamp].conditionCode] = (stringOccourances[timeStamps[timeStamp].conditionCode] || 0) + 1;
     }
   }
@@ -324,7 +337,7 @@ function getCommonDayCoditionCode(cityApiResponse, weekDay) {
   }
   return mostCommonString;
 }
-function ConvertDateToEET(dateString) {
+function convertDateToEET(dateString) {
   var date = new Date(dateString);
   date.setHours(date.getHours() + 2);
   return date;
@@ -341,12 +354,50 @@ function averageTempInRange(cityApiResponse, weekDay, startTime, endTime)
   var tempretureAmount = 0;
   var timeStamps = cityApiResponse.forecastTimestamps;
   for (var timeStamp = 0; timeStamps.length > timeStamp; timeStamp++) {
-    if (ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() >= startTime && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() <= endTime) {
+    if (convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay && convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() >= startTime && convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() <= endTime) {
       tempretureSum += timeStamps[timeStamp].airTemperature;
       tempretureAmount++;
     }
   }
   return (tempretureSum / tempretureAmount).toFixed(1);
+}
+function get8orLessTimeStamps(dayTimeStamps) {
+  var returnArray = [];
+  var length = dayTimeStamps.length;
+  var step = 0;
+  var stepSize = dayTimeStamps.length / 8;
+  var returnAmount = 8;
+  if (dayTimeStamps.length <= 8) {
+    return dayTimeStamps;
+  }
+  for (var i = 0; i <= 8; i++) {
+    console.log(step);
+    if (i == 7) {
+      returnArray.push(dayTimeStamps[length - 1]);
+      break;
+    }
+    returnArray.push(dayTimeStamps[Math.floor(step)]);
+    step += stepSize;
+  }
+  return returnArray;
+}
+function getAllTimesForWeekDay(cityApiResponse, weekDay) {
+  var weekLaterDate = new Date();
+  weekLaterDate.setDate(weekLaterDate.getDate() + 7);
+  var weekDays = [];
+  for (var timeStampIndex = 0; timeStampIndex < cityApiResponse.forecastTimestamps.length; timeStampIndex++) {
+    var checkedDate = convertDateToEET(cityApiResponse.forecastTimestamps[timeStampIndex].forecastTimeUtc);
+    if (checkedDate.getDate() == weekLaterDate.getDate()) {
+      break;
+    }
+    if (checkedDate.getDay() == weekDay) {
+      weekDays.push(cityApiResponse.forecastTimestamps[timeStampIndex]);
+    }
+  }
+  return weekDays;
+}
+function get8TimeForWeekDay(cityApiResponse, weekDay) {
+  return get8orLessTimeStamps(getAllTimesForWeekDay(cityApiResponse, weekDay));
 }
 
 /***/ }),

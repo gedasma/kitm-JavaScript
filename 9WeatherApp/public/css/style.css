@@ -12093,12 +12093,13 @@ body {
 
 .dayContent {
   display: flex;
-  gap: 36px;
+  gap: 20px;
 }
 .dayContent__hour {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  align-items: center;
 }
 .dayContent__hour__time {
   color: #FFF;

@@ -1,9 +1,8 @@
-import {weekNumberToWord, conditionCodeToImage, getCommonDayCoditionCode, averageTempInRange} from './valueResolver';
+import {weekNumberToWord, conditionCodeToImage, getCommonDayCoditionCode, convertDateToEET, averageTempInRange, get8TimeForWeekDay} from './valueResolver';
 
 export const createCityCard = (cityApiResponse)=>{
   let cityCard = createCityCardBase(cityApiResponse.place.name)
   
-  console.log(weekNumberToWord(0))
   let weekDayHolder = cityCard.querySelector('.accordion')
   for (let i = 0; i <= 6; i++)
   {
@@ -12,14 +11,16 @@ export const createCityCard = (cityApiResponse)=>{
   document.querySelector(".background").appendChild(cityCard)
 }
 
-export const createCityCardBase = (city)=>{
+function createCityCardBase(city)
+{
   let cityCard = document.createElement('div')
   cityCard.classList.add('cityCard', 'container')
   cityCard.innerHTML = cityCardBase(city)
   return cityCard
 }
 
-export const createCityWeekDayRow = (cityApiResponse, weekDay) =>{
+function createCityWeekDayRow(cityApiResponse, weekDay)
+{
   let dayRow = document.createElement('div')
   dayRow.classList.add('accordion-item')
 
@@ -36,13 +37,37 @@ export const createCityWeekDayRow = (cityApiResponse, weekDay) =>{
     dayTemp: averageTempInRange(cityApiResponse, weekDay, dayStartingHours.getHours(), dayEndingHours.getHours()),
     nightTemp: averageTempInRange(cityApiResponse, weekDay, nightStartingHours.getHours(), nightEndingHours.getHours())
   };
-  console.log(`for day ${weekDay} average is ${averageTempInRange(cityApiResponse, weekDay, dayStartingHours, dayEndingHours)}`)
 
   dayRow.innerHTML = cityWeekDayComponent(cityApiResponse.place.name, weekDay, dayInfo)
+
+  let hourHolder = dayRow.querySelector(".dayContent")
+  fillDayContent(dayRow, cityApiResponse, weekDay)
   return dayRow
 }
 
-export const cityCardBase = (city)=>{
+function fillDayContent(dayRow, cityApiResponse, weekDay)
+{
+  let weekDayTimesStamps = (get8TimeForWeekDay(cityApiResponse,weekDay))
+  for(let hourComponentIndex = 0; hourComponentIndex < weekDayTimesStamps.length; hourComponentIndex++)
+  {
+    let hourInfo = {
+      time: convertDateToEET(weekDayTimesStamps[hourComponentIndex].forecastTimeUtc).getHours(),
+      conditionCode: weekDayTimesStamps[hourComponentIndex].conditionCode,
+      tempreture: weekDayTimesStamps[hourComponentIndex].airTemperature
+    }
+    dayRow.querySelector(".dayContent").appendChild(createDayComponent(hourInfo.time + ":00", hourInfo.conditionCode, hourInfo.tempreture))
+  }
+}
+
+function createDayComponent(time, conditionCode, temperature)
+{
+  let hourComponent = document.createElement('div')
+  hourComponent.classList.add('dayContent__hour')
+  hourComponent.innerHTML = hourOfDayComponent(time, conditionCode, temperature)
+  return hourComponent
+}
+
+const cityCardBase = (city)=>{
     return `
       <div class="row justify-content-between">
           <h2 class="cityCard__cityName col-6">${city}</h2>
@@ -53,7 +78,7 @@ export const cityCardBase = (city)=>{
     `
 }
 
-export const cityWeekDayComponent = (city, weekDay, dayInfo)=>{
+const cityWeekDayComponent = (city, weekDay, dayInfo)=>{
     return `
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -73,14 +98,12 @@ export const cityWeekDayComponent = (city, weekDay, dayInfo)=>{
     `
 }
 
-export const hourOfDayComponent = ()=>{
+const hourOfDayComponent = (time, conditionCode, temperature)=>{
     return `
-    <div class="dayContent__hour">
-        <h4 class="dayContent__hour__time">Now</h4>
-        <div class="dayContent__hour__conditionImage">
-            <img src="assets/cloudSun.png" alt="">
-        </div>
-        <h4 class="dayContent__hour__temperature">18°</h4>
-    </div>
+      <h4 class="dayContent__hour__time">${time}</h4>
+      <div class="dayContent__hour__conditionImage">
+        <img src="${conditionCodeToImage(conditionCode)}" alt="">
+      </div>
+      <h4 class="dayContent__hour__temperature">${temperature}°</h4>
     `
 }

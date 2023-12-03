@@ -1,4 +1,3 @@
-let timeZoneModifier = 2 * 60 * 60 * 1000
 export function weekNumberToWord(weekDay)
 {
     let currentDate = new Date();
@@ -54,7 +53,7 @@ export function getCommonDayCoditionCode(cityApiResponse, weekDay)
     
     for (let timeStamp = 0;timeStamps.length > timeStamp; timeStamp++)
     {
-        if(ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay){
+        if(convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay){
             stringOccourances[timeStamps[timeStamp].conditionCode] = (stringOccourances[timeStamps[timeStamp].conditionCode] || 0) + 1
         }
     }
@@ -73,7 +72,7 @@ export function getCommonDayCoditionCode(cityApiResponse, weekDay)
     return mostCommonString
 }
 
-function ConvertDateToEET(dateString)
+export function convertDateToEET(dateString)
 {
     let date = new Date(dateString)
     date.setHours(date.getHours() + 2);
@@ -94,13 +93,62 @@ export function averageTempInRange(cityApiResponse, weekDay, startTime, endTime)
     
     for (let timeStamp = 0;timeStamps.length > timeStamp; timeStamp++)
     {
-        if(ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay 
-        && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() >= startTime
-        && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() <= endTime)
+        if(convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay 
+        && convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() >= startTime
+        && convertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() <= endTime)
         {
             tempretureSum += timeStamps[timeStamp].airTemperature
             tempretureAmount++
         }
     }
     return (tempretureSum / tempretureAmount).toFixed(1)
+}
+
+function get8orLessTimeStamps(dayTimeStamps)
+{
+    let returnArray = []
+    let length = dayTimeStamps.length
+    let step = 0
+    let stepSize = dayTimeStamps.length/8
+    let returnAmount = 8
+
+    if(dayTimeStamps.length <= 8){
+        return dayTimeStamps
+    }
+
+    for(let i = 0; i <= 8; i++)
+    {
+        console.log(step)
+        if(i == 7){
+            returnArray.push(dayTimeStamps[length-1])
+            break
+        }
+        returnArray.push(dayTimeStamps[Math.floor(step)])
+        step += stepSize
+    }
+    return returnArray
+}
+
+function getAllTimesForWeekDay(cityApiResponse, weekDay)
+{
+    let weekLaterDate = new Date()
+    weekLaterDate.setDate(weekLaterDate.getDate() + 7);
+    let weekDays = []
+    for (let timeStampIndex = 0; timeStampIndex < cityApiResponse.forecastTimestamps.length; timeStampIndex++)
+    {
+        let checkedDate = convertDateToEET(cityApiResponse.forecastTimestamps[timeStampIndex].forecastTimeUtc)
+        if (checkedDate.getDate() == weekLaterDate.getDate()){
+            break
+        }
+        if(checkedDate.getDay() == weekDay)
+        {
+            weekDays.push(cityApiResponse.forecastTimestamps[timeStampIndex])
+        }
+    }
+    return weekDays
+}
+
+export function get8TimeForWeekDay(cityApiResponse, weekDay)
+{
+    return get8orLessTimeStamps(getAllTimesForWeekDay(cityApiResponse,weekDay))
 }

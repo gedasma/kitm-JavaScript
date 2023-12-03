@@ -1,10 +1,11 @@
 .dayContent{
     display: flex;
-    gap: 36px;
+    gap: 20px;
     &__hour{
         display: flex;
         flex-direction: column;
         gap: 30px;
+        align-items: center;
         &__time{
             color: $cardTextColor;
             text-align: center;

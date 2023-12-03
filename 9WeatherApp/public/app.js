@@ -13,11 +13,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _modules_getCityList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/getCityList */ "./src/modules/getCityList.js");
 /* harmony import */ var _modules_addCity__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/addCity */ "./src/modules/addCity.js");
+/* harmony import */ var _modules_renderCitiesFromLocalStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/renderCitiesFromLocalStorage */ "./src/modules/renderCitiesFromLocalStorage.js");
 
 
 // import searchCity from "./modules/searchCity";
 
+
 (0,_modules_getCityList__WEBPACK_IMPORTED_MODULE_1__["default"])();
+(0,_modules_renderCitiesFromLocalStorage__WEBPACK_IMPORTED_MODULE_3__["default"])();
 // searchCity();
 (0,_modules_addCity__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
@@ -35,6 +38,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createCityCard: () => (/* binding */ createCityCard)
 /* harmony export */ });
 /* harmony import */ var _valueResolver__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./valueResolver */ "./src/modules/valueResolver.js");
+/* harmony import */ var _localStorageService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./localStorageService */ "./src/modules/localStorageService.js");
+
 
 var createCityCard = function createCityCard(cityApiResponse) {
   var cityCard = createCityCardBase(cityApiResponse.place.name);
@@ -42,8 +47,18 @@ var createCityCard = function createCityCard(cityApiResponse) {
   for (var i = 0; i <= 6; i++) {
     weekDayHolder.appendChild(createCityWeekDayRow(cityApiResponse, i));
   }
+  removeButtonFunction(cityCard);
   document.querySelector(".background").appendChild(cityCard);
 };
+function removeButtonFunction(cityCard) {
+  cityCard.querySelector(".cityCard__deleteCity").addEventListener('click', function () {
+    var cityName = cityCard.querySelector(".cityCard__cityName").textContent;
+    var localStorage = (0,_localStorageService__WEBPACK_IMPORTED_MODULE_1__.getLocalStorage)();
+    localStorage["delete"](cityName.toLowerCase());
+    cityCard.remove();
+    (0,_localStorageService__WEBPACK_IMPORTED_MODULE_1__.saveToLocalStorage)(localStorage);
+  });
+}
 function createCityCardBase(city) {
   var cityCard = document.createElement('div');
   cityCard.classList.add('cityCard', 'container');
@@ -219,6 +234,31 @@ function addCityToLocalStorage(city) {
 
 /***/ }),
 
+/***/ "./src/modules/renderCitiesFromLocalStorage.js":
+/*!*****************************************************!*\
+  !*** ./src/modules/renderCitiesFromLocalStorage.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _localStorageService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./localStorageService */ "./src/modules/localStorageService.js");
+/* harmony import */ var _searchCity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./searchCity */ "./src/modules/searchCity.js");
+
+
+var renderCitiesFromLocalStorage = function renderCitiesFromLocalStorage() {
+  var localStorage = (0,_localStorageService__WEBPACK_IMPORTED_MODULE_0__.getLocalStorage)();
+  localStorage.forEach(function (city) {
+    (0,_searchCity__WEBPACK_IMPORTED_MODULE_1__["default"])(city);
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderCitiesFromLocalStorage);
+
+/***/ }),
+
 /***/ "./src/modules/searchCity.js":
 /*!***********************************!*\
   !*** ./src/modules/searchCity.js ***!
@@ -371,7 +411,6 @@ function get8orLessTimeStamps(dayTimeStamps) {
     return dayTimeStamps;
   }
   for (var i = 0; i <= 8; i++) {
-    console.log(step);
     if (i == 7) {
       returnArray.push(dayTimeStamps[length - 1]);
       break;

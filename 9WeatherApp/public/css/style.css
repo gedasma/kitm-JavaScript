@@ -12094,6 +12094,8 @@ body {
 .dayContent {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 .dayContent__hour {
   display: flex;

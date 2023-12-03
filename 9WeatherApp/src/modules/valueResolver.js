@@ -118,7 +118,6 @@ function get8orLessTimeStamps(dayTimeStamps)
 
     for(let i = 0; i <= 8; i++)
     {
-        console.log(step)
         if(i == 7){
             returnArray.push(dayTimeStamps[length-1])
             break

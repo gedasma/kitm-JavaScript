@@ -1,4 +1,5 @@
 import {weekNumberToWord, conditionCodeToImage, getCommonDayCoditionCode, convertDateToEET, averageTempInRange, get8TimeForWeekDay} from './valueResolver';
+import {getLocalStorage, addCityToLocalStorage, saveToLocalStorage} from './localStorageService';
 
 export const createCityCard = (cityApiResponse)=>{
   let cityCard = createCityCardBase(cityApiResponse.place.name)
@@ -8,7 +9,19 @@ export const createCityCard = (cityApiResponse)=>{
   {
     weekDayHolder.appendChild(createCityWeekDayRow(cityApiResponse, i))
   }
+  removeButtonFunction(cityCard)
   document.querySelector(".background").appendChild(cityCard)
+}
+
+function removeButtonFunction(cityCard)
+{
+  cityCard.querySelector(".cityCard__deleteCity").addEventListener('click', ()=>{
+    let cityName = cityCard.querySelector(".cityCard__cityName").textContent
+    let localStorage = getLocalStorage()
+    localStorage.delete(cityName.toLowerCase())
+    cityCard.remove()
+    saveToLocalStorage(localStorage)
+  })
 }
 
 function createCityCardBase(city)

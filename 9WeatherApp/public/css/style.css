@@ -12043,7 +12043,7 @@ body {
   padding-right: 0;
 }
 .weatherForm__input input {
-  width: 30rem;
+  width: 100%;
 }
 
 .cityCard {

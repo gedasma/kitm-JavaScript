@@ -16,12 +16,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_renderCitiesFromLocalStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/renderCitiesFromLocalStorage */ "./src/modules/renderCitiesFromLocalStorage.js");
 
 
-// import searchCity from "./modules/searchCity";
 
 
 (0,_modules_getCityList__WEBPACK_IMPORTED_MODULE_1__["default"])();
 (0,_modules_renderCitiesFromLocalStorage__WEBPACK_IMPORTED_MODULE_3__["default"])();
-// searchCity();
 (0,_modules_addCity__WEBPACK_IMPORTED_MODULE_2__["default"])();
 
 /***/ }),
@@ -126,13 +124,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _searchCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchCity */ "./src/modules/searchCity.js");
+/* harmony import */ var _localStorageService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./localStorageService */ "./src/modules/localStorageService.js");
+/* harmony import */ var _searchCity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./searchCity */ "./src/modules/searchCity.js");
+
 
 var addCity = function addCity() {
-  document.querySelector('form').addEventListener('submit', function (e) {
+  document.querySelector('.weatherForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var city = document.querySelector('.city').value;
-    (0,_searchCity__WEBPACK_IMPORTED_MODULE_0__["default"])(city);
+    var textField = document.querySelector('.weatherForm .city');
+    var city = textField.value.toLowerCase();
+    textField.value = "";
+    var localStorage = (0,_localStorageService__WEBPACK_IMPORTED_MODULE_0__.getLocalStorage)();
+    if (!localStorage.has(city)) {
+      (0,_searchCity__WEBPACK_IMPORTED_MODULE_1__["default"])(city);
+      textField.placeholder = "Miestas priėtas";
+    } else {
+      textField.placeholder = "Toks miestas jau pridėtas!";
+    }
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addCity);
@@ -283,15 +291,11 @@ var searchCity = function searchCity(city) {
   }).then(function () {
     console.log(searchResponse);
     if (searchResponse.hasOwnProperty('forecastTimestamps') && searchResponse.forecastTimestamps.length > 0) {
-      (0,_localStorageService__WEBPACK_IMPORTED_MODULE_1__.addCityToLocalStorage)(city.toLowerCase());
+      (0,_localStorageService__WEBPACK_IMPORTED_MODULE_1__.addCityToLocalStorage)(city);
       (0,_CityCardCreatorService__WEBPACK_IMPORTED_MODULE_2__.createCityCard)(searchResponse);
-      // document.querySelector('.message').textContent = ""
-      // document.querySelector('.result').value = searchResponse.data[0].post_code
     } else if (searchResponse.error.code = 404) {
       console.log("data fetch failed!");
-      return searchResponse;
-      // document.querySelector('.result').value = ""
-      // document.querySelector('.message').textContent = "tokio adreso nera!"
+      document.querySelector('.weatherForm .city').placeholder = "Tokie miesto nėra!";
     }
   });
 };

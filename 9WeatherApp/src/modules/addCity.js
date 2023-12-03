@@ -1,12 +1,20 @@
-
+import {getLocalStorage} from './localStorageService';
 import searchCity from "./searchCity";
 
 const addCity = () =>{
-    document.querySelector('form').addEventListener('submit', (e)=>{
+    document.querySelector('.weatherForm').addEventListener('submit', (e)=>{
         e.preventDefault()
-        const city = document.querySelector('.city').value;
-        searchCity(city)
-
+        let textField = document.querySelector('.weatherForm .city')
+        const city = textField.value.toLowerCase();
+        textField.value = ""
+        let localStorage = getLocalStorage()
+        if(!localStorage.has(city)){
+            searchCity(city)
+            textField.placeholder = "Miestas priėtas"
+        }
+        else{
+            textField.placeholder = "Toks miestas jau pridėtas!"
+        }
     })
 }
 

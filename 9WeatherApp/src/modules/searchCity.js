@@ -11,17 +11,13 @@ const searchCity = (city) =>{
             
             if (searchResponse.hasOwnProperty('forecastTimestamps') && searchResponse.forecastTimestamps.length > 0)
             {
-                addCityToLocalStorage(city.toLowerCase())
+                addCityToLocalStorage(city)
                 createCityCard(searchResponse)
-                // document.querySelector('.message').textContent = ""
-                // document.querySelector('.result').value = searchResponse.data[0].post_code
             }
             else if(searchResponse.error.code = 404)
             {
                 console.log("data fetch failed!")
-                return searchResponse
-                // document.querySelector('.result').value = ""
-                // document.querySelector('.message').textContent = "tokio adreso nera!"
+                document.querySelector('.weatherForm .city').placeholder = "Tokie miesto nėra!"
             }
             
         })

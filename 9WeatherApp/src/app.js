@@ -1,4 +1,8 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import searchCode from "./modules/searchCode";
+import getCityList from './modules/getCityList'
+// import searchCity from "./modules/searchCity";
+import addCity from "./modules/addCity";
 
-searchCode();
+getCityList();
+// searchCity();
+addCity();

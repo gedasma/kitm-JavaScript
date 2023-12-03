@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container background">
-        <form class="form-line">
-            <div class="form-group">
-                <input type = "text" class="form-control address city" placeholder="Miestas">
+    <div class="container background ">
+        <form class="row weatherForm">
+            <div class="form-group places col weatherForm__input">
+                <input class="form-control address city" placeholder="Miestas" list = "places" placeholder="Iveskite vietove">
+                <datalist id="places">
+                </datalist>
             </div>
-            <div class="form-group">
-                <button type="submit" class = "btn btn-primary">Ieskoti</button>
+            <div class="form-group col weatherForm__button">
+                <button type="submit" class = "btn btn-primary">+</button>
             </div>
+            
         </form>
 
         <div class="cityCard container">
@@ -43,6 +46,13 @@
                         </div>
                         <h4 class="dayContent__hour__temperature">18°</h4>
                       </div>
+                      <div class="dayContent__hour">
+                        <h4 class="dayContent__hour__time">Now</h4>
+                        <div class="dayContent__hour__conditionImage">
+                            <img src="assets/cloudSun.png" alt="">
+                        </div>
+                        <h4 class="dayContent__hour__temperature">18°</h4>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -58,8 +68,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
         </div>
+        
     </div>
     <script src="app.js"></script>
 </body>

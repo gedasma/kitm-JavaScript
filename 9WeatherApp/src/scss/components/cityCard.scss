@@ -14,20 +14,26 @@
         color: $cardTextColor;
     }
     &__day{
-        gap: 1rem;
+        gap: 0.5rem;
         &__weekDay, &__dayTemperature, &__nightTemperature{
             color: $cardTextColor;
             font-size: 1rem;
             font-weight: 500;
             line-height: 20px; /* 125% */
         }
+        &__weekDay{
+            width: 4rem;
+        }
         &__conditionImage{
-            padding-left: 1.5rem;
-            padding-right: 2.375rem;
+            padding-right: 1rem;
             img{
                 width: 36px;
                 height: 36px;
             }
+        }
+        &__dayTemperature, &__nightTemperature{
+            text-align: right;
+            width: 2rem;
         }
         &__nightTemperature{
             color: $cardNightTextColor;

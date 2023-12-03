@@ -11995,14 +11995,14 @@ body {
 }
 
 .accordion-item {
-  background-color: #121212; /* Background color for each accordion item */
+  background-color: #121212;
   border: 0px;
   border-radius: 16px;
   padding: 0 0 1rem 0;
 }
 
 .accordion-header {
-  background-color: #121212; /* Background color for the accordion header */
+  background-color: #121212;
 }
 
 .accordion-button {
@@ -12024,7 +12024,7 @@ body {
 }
 
 .accordion-collapse {
-  background-color: #121212; /* Background color for the content of each accordion item */
+  background-color: #121212;
 }
 
 .accordion-button::after {
@@ -12035,6 +12035,17 @@ body {
   font-family: PingFang;
   src: url(/fonts/PingFangRegular.ttf?8e752fd0ad0ea39bc21620d8203cfe30);
 }
+.weatherForm {
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+.weatherForm__input {
+  padding-right: 0;
+}
+.weatherForm__input input {
+  width: 30rem;
+}
+
 .cityCard {
   border-radius: 16px;
   border: 1px solid var(--light-pop-boder, rgba(255, 255, 255, 0.15));
@@ -12054,7 +12065,7 @@ body {
   color: #FFF;
 }
 .cityCard__day {
-  gap: 1rem;
+  gap: 0.5rem;
 }
 .cityCard__day__weekDay, .cityCard__day__dayTemperature, .cityCard__day__nightTemperature {
   color: #FFF;
@@ -12062,13 +12073,19 @@ body {
   font-weight: 500;
   line-height: 20px; /* 125% */
 }
+.cityCard__day__weekDay {
+  width: 4rem;
+}
 .cityCard__day__conditionImage {
-  padding-left: 1.5rem;
-  padding-right: 2.375rem;
+  padding-right: 1rem;
 }
 .cityCard__day__conditionImage img {
   width: 36px;
   height: 36px;
+}
+.cityCard__day__dayTemperature, .cityCard__day__nightTemperature {
+  text-align: right;
+  width: 2rem;
 }
 .cityCard__day__nightTemperature {
   color: rgba(255, 255, 255, 0.68);

@@ -11,10 +11,104 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap/dist/js/bootstrap.bundle.min.js */ "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js");
 /* harmony import */ var bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_js_bootstrap_bundle_min_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _modules_searchCode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/searchCode */ "./src/modules/searchCode.js");
+/* harmony import */ var _modules_getCityList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/getCityList */ "./src/modules/getCityList.js");
+/* harmony import */ var _modules_addCity__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/addCity */ "./src/modules/addCity.js");
 
 
-(0,_modules_searchCode__WEBPACK_IMPORTED_MODULE_1__["default"])();
+// import searchCity from "./modules/searchCity";
+
+(0,_modules_getCityList__WEBPACK_IMPORTED_MODULE_1__["default"])();
+// searchCity();
+(0,_modules_addCity__WEBPACK_IMPORTED_MODULE_2__["default"])();
+
+/***/ }),
+
+/***/ "./src/modules/CityCardCreatorService.js":
+/*!***********************************************!*\
+  !*** ./src/modules/CityCardCreatorService.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   cityCardBase: () => (/* binding */ cityCardBase),
+/* harmony export */   cityWeekDayComponent: () => (/* binding */ cityWeekDayComponent),
+/* harmony export */   createCityCard: () => (/* binding */ createCityCard),
+/* harmony export */   createCityCardBase: () => (/* binding */ createCityCardBase),
+/* harmony export */   createCityWeekDayRow: () => (/* binding */ createCityWeekDayRow),
+/* harmony export */   hourOfDayComponent: () => (/* binding */ hourOfDayComponent)
+/* harmony export */ });
+/* harmony import */ var _valueResolver__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./valueResolver */ "./src/modules/valueResolver.js");
+
+var createCityCard = function createCityCard(cityApiResponse) {
+  var cityCard = createCityCardBase(cityApiResponse.place.name);
+  console.log((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.weekNumberToWord)(0));
+  var weekDayHolder = cityCard.querySelector('.accordion');
+  for (var i = 0; i <= 6; i++) {
+    weekDayHolder.appendChild(createCityWeekDayRow(cityApiResponse, i));
+  }
+  document.querySelector(".background").appendChild(cityCard);
+};
+var createCityCardBase = function createCityCardBase(city) {
+  var cityCard = document.createElement('div');
+  cityCard.classList.add('cityCard', 'container');
+  cityCard.innerHTML = cityCardBase(city);
+  return cityCard;
+};
+var createCityWeekDayRow = function createCityWeekDayRow(cityApiResponse, weekDay) {
+  var dayRow = document.createElement('div');
+  dayRow.classList.add('accordion-item');
+  var dayStartingHours = new Date();
+  dayStartingHours.setHours(7, 0, 0);
+  var dayEndingHours = new Date();
+  dayEndingHours.setHours(23, 0, 0);
+  var nightStartingHours = new Date();
+  nightStartingHours.setHours(0, 0, 0);
+  var nightEndingHours = new Date();
+  nightEndingHours.setHours(6, 0, 0);
+  var dayInfo = {
+    conditionCode: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.getCommonDayCoditionCode)(cityApiResponse, weekDay),
+    dayTemp: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, dayStartingHours.getHours(), dayEndingHours.getHours()),
+    nightTemp: (0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, nightStartingHours.getHours(), nightEndingHours.getHours())
+  };
+  console.log("for day ".concat(weekDay, " average is ").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.averageTempInRange)(cityApiResponse, weekDay, dayStartingHours, dayEndingHours)));
+  dayRow.innerHTML = cityWeekDayComponent(cityApiResponse.place.name, weekDay, dayInfo);
+  return dayRow;
+};
+var cityCardBase = function cityCardBase(city) {
+  return "\n      <div class=\"row justify-content-between\">\n          <h2 class=\"cityCard__cityName col-6\">".concat(city, "</h2>\n          <button type=\"button\"class=\"cityCard__deleteCity btn btn-secondary col-6\">Remove</button>\n      </div>\n      <div class=\"accordion\" id=\"accordion").concat(city, "\">\n      </div>\n    ");
+};
+var cityWeekDayComponent = function cityWeekDayComponent(city, weekDay, dayInfo) {
+  return "\n    <div class=\"accordion-item\">\n      <h2 class=\"accordion-header\">\n        <button class=\"accordion-button collapsed cityCard__day\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse".concat(city).concat(weekDay, "\" aria-expanded=\"false\" aria-controls=\"collapse").concat(city).concat(weekDay, "\">      \n          <h3 class=\"cityCard__day__weekDay\">").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.weekNumberToWord)(weekDay), "</h3>\n          <div class=\"cityCard__day__conditionImage\"><img src=\"").concat((0,_valueResolver__WEBPACK_IMPORTED_MODULE_0__.conditionCodeToImage)(dayInfo.conditionCode), "\" alt=\"\"></div>\n          <h3 class=\"cityCard__day__dayTemperature\">").concat(dayInfo.dayTemp, "\xB0</h3>\n          <h3 class=\"cityCard__day__nightTemperature\">").concat(dayInfo.nightTemp, "\xB0</h3>        \n        </button>\n      </h2>\n        <div id=\"collapse").concat(city).concat(weekDay, "\" class=\"accordion-collapse collapse\" data-bs-parent=\"#accordion").concat(city, "\">\n        <div class=\"accordion-body dayContent\">\n           \n        </div>\n      </div>\n    </div>\n    ");
+};
+var hourOfDayComponent = function hourOfDayComponent() {
+  return "\n    <div class=\"dayContent__hour\">\n        <h4 class=\"dayContent__hour__time\">Now</h4>\n        <div class=\"dayContent__hour__conditionImage\">\n            <img src=\"assets/cloudSun.png\" alt=\"\">\n        </div>\n        <h4 class=\"dayContent__hour__temperature\">18\xB0</h4>\n    </div>\n    ";
+};
+
+/***/ }),
+
+/***/ "./src/modules/addCity.js":
+/*!********************************!*\
+  !*** ./src/modules/addCity.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _searchCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchCity */ "./src/modules/searchCity.js");
+
+var addCity = function addCity() {
+  document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var city = document.querySelector('.city').value;
+    (0,_searchCity__WEBPACK_IMPORTED_MODULE_0__["default"])(city);
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addCity);
 
 /***/ }),
 
@@ -38,9 +132,84 @@ var dataFetchService = function dataFetchService(city) {
 
 /***/ }),
 
-/***/ "./src/modules/searchCode.js":
+/***/ "./src/modules/getCityList.js":
+/*!************************************!*\
+  !*** ./src/modules/getCityList.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var apiCall = "https://api.meteo.lt/v1/places";
+function getCityList() {
+  return fetch(apiCall).then(function (response) {
+    if (!response.ok) {
+      throw new Error("failed to get response: " + response.status);
+    } else {
+      return response.json();
+    }
+  }).then(function (data) {
+    var datalist = document.querySelector('.places > datalist');
+    var uniqueSet = new Set();
+    for (var index = 0; index < data.length; index++) {
+      if (!data[index].name.includes(' ') && !uniqueSet.has(data[index].name)) {
+        uniqueSet.add(data[index].name);
+        var option = createOption(data[index].name);
+        datalist.appendChild(option);
+      }
+    }
+  });
+}
+function createOption(location) {
+  var option = document.createElement("option");
+  option.setAttribute('value', location);
+  return option;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getCityList);
+
+/***/ }),
+
+/***/ "./src/modules/localStorageService.js":
+/*!********************************************!*\
+  !*** ./src/modules/localStorageService.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addCityToLocalStorage: () => (/* binding */ addCityToLocalStorage),
+/* harmony export */   getLocalStorage: () => (/* binding */ getLocalStorage),
+/* harmony export */   saveToLocalStorage: () => (/* binding */ saveToLocalStorage)
+/* harmony export */ });
+var localStorageItemName = 'WeatherApp';
+function saveToLocalStorage(cities) {
+  localStorage.setItem(localStorageItemName, JSON.stringify(Array.from(cities)));
+}
+function getLocalStorage() {
+  var storage = new Set(JSON.parse(localStorage.getItem(localStorageItemName)));
+  if (storage != null) {
+    return storage;
+  } else {
+    return new Set();
+  }
+}
+function addCityToLocalStorage(city) {
+  var cities = getLocalStorage();
+  var doesSetHave = cities.has(city);
+  cities.add(city);
+  saveToLocalStorage(cities);
+  return doesSetHave;
+}
+
+/***/ }),
+
+/***/ "./src/modules/searchCity.js":
 /*!***********************************!*\
-  !*** ./src/modules/searchCode.js ***!
+  !*** ./src/modules/searchCity.js ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -50,29 +219,135 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _dataFetchService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataFetchService */ "./src/modules/dataFetchService.js");
+/* harmony import */ var _localStorageService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./localStorageService */ "./src/modules/localStorageService.js");
+/* harmony import */ var _CityCardCreatorService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CityCardCreatorService */ "./src/modules/CityCardCreatorService.js");
 
-var searchCode = function searchCode() {
-  document.querySelector('form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var city = document.querySelector('.city').value;
-    var searchResponse;
-    (0,_dataFetchService__WEBPACK_IMPORTED_MODULE_0__["default"])(city).then(function (result) {
-      return searchResponse = result;
-    }).then(function () {
-      console.log(searchResponse);
-      if (searchResponse.hasOwnProperty('forecastTimestamps') && searchResponse.forecastTimestamps.length > 0) {
-        console.log("data fetch success!");
-        // document.querySelector('.message').textContent = ""
-        // document.querySelector('.result').value = searchResponse.data[0].post_code
-      } else if (searchResponse.error.code = 404) {
-        console.log("data fetch failed!");
-        // document.querySelector('.result').value = ""
-        // document.querySelector('.message').textContent = "tokio adreso nera!"
-      }
-    });
+
+
+var searchCity = function searchCity(city) {
+  var searchResponse;
+  (0,_dataFetchService__WEBPACK_IMPORTED_MODULE_0__["default"])(city).then(function (result) {
+    return searchResponse = result;
+  }).then(function () {
+    console.log(searchResponse);
+    if (searchResponse.hasOwnProperty('forecastTimestamps') && searchResponse.forecastTimestamps.length > 0) {
+      (0,_localStorageService__WEBPACK_IMPORTED_MODULE_1__.addCityToLocalStorage)(city.toLowerCase());
+      (0,_CityCardCreatorService__WEBPACK_IMPORTED_MODULE_2__.createCityCard)(searchResponse);
+      // document.querySelector('.message').textContent = ""
+      // document.querySelector('.result').value = searchResponse.data[0].post_code
+    } else if (searchResponse.error.code = 404) {
+      console.log("data fetch failed!");
+      return searchResponse;
+      // document.querySelector('.result').value = ""
+      // document.querySelector('.message').textContent = "tokio adreso nera!"
+    }
   });
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchCode);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchCity);
+
+/***/ }),
+
+/***/ "./src/modules/valueResolver.js":
+/*!**************************************!*\
+  !*** ./src/modules/valueResolver.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   averageTempInRange: () => (/* binding */ averageTempInRange),
+/* harmony export */   conditionCodeToImage: () => (/* binding */ conditionCodeToImage),
+/* harmony export */   getCommonDayCoditionCode: () => (/* binding */ getCommonDayCoditionCode),
+/* harmony export */   weekNumberToWord: () => (/* binding */ weekNumberToWord)
+/* harmony export */ });
+var timeZoneModifier = 2 * 60 * 60 * 1000;
+function weekNumberToWord(weekDay) {
+  var currentDate = new Date();
+  if (weekDay == currentDate.getDay()) {
+    return "Today";
+  }
+  var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return daysOfWeek[weekDay];
+}
+function conditionCodeToImage(conditionCode) {
+  var conditionImages = {
+    'clear': 'sunny.png',
+    'partly-cloudy': 'cloudyPartly.png',
+    'variable-cloudiness': 'cloudySun.png',
+    'cloudy-with-sunny-intervals': 'cloudySun.png',
+    'cloudy': 'cloudy.png',
+    'thunder': 'lightning.png',
+    'isolated-thunderstorms': 'thunderStorm.png',
+    'thunderstorms': 'thunderStorm.png',
+    'light-rain': 'rainLight.png',
+    'rain': 'rainHeavy.png',
+    'heavy-rain': 'rainHeavy.png',
+    'rain-showers': 'rainHeavy.png',
+    'light-rain-at-times': 'rainLight.png',
+    'rain-at-times': 'rainHeavy.png',
+    'light-sleet': 'snowModerate.png',
+    'sleet': 'snowModerate.png',
+    'sleet-at-times': 'snowModerate.png',
+    'sleet-showers': 'snowModerate.png',
+    'freezing-rain': 'snowModerate.png',
+    'hail': 'hail.png',
+    'light-snow': 'snowModerate.png',
+    'snow': 'snow.png',
+    'heavy-snow': 'snow.png',
+    'snow-showers': 'snow.png',
+    'snow-at-times': 'snow.png',
+    'light-snow-at-times': 'snow.png',
+    'snowstorm': 'blizzard.png',
+    'mist': 'fog.png',
+    'fog': 'fog.png',
+    'squall': 'blizzard.png',
+    'null': 'image.png'
+  };
+  return "assets/" + conditionImages[conditionCode];
+}
+function getCommonDayCoditionCode(cityApiResponse, weekDay) {
+  var stringOccourances = {};
+  var timeStamps = cityApiResponse.forecastTimestamps;
+  for (var timeStamp = 0; timeStamps.length > timeStamp; timeStamp++) {
+    if (ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay) {
+      stringOccourances[timeStamps[timeStamp].conditionCode] = (stringOccourances[timeStamps[timeStamp].conditionCode] || 0) + 1;
+    }
+  }
+  var mostCommonString = null;
+  var mostOccourances = 0;
+  for (var occourance in stringOccourances) {
+    if (stringOccourances[occourance] > mostOccourances) {
+      mostCommonString = occourance;
+      mostOccourances = stringOccourances[occourance];
+    }
+  }
+  return mostCommonString;
+}
+function ConvertDateToEET(dateString) {
+  var date = new Date(dateString);
+  date.setHours(date.getHours() + 2);
+  return date;
+}
+function averageTempInRange(cityApiResponse, weekDay, startTime, endTime)
+// inclusive times
+{
+  //if checking today returns current temp
+  var currentDate = new Date();
+  if (weekDay == currentDate.getDay()) {
+    return cityApiResponse.forecastTimestamps[0].airTemperature;
+  }
+  var tempretureSum = 0;
+  var tempretureAmount = 0;
+  var timeStamps = cityApiResponse.forecastTimestamps;
+  for (var timeStamp = 0; timeStamps.length > timeStamp; timeStamp++) {
+    if (ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getDay() == weekDay && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() >= startTime && ConvertDateToEET(timeStamps[timeStamp].forecastTimeUtc).getHours() <= endTime) {
+      tempretureSum += timeStamps[timeStamp].airTemperature;
+      tempretureAmount++;
+    }
+  }
+  return (tempretureSum / tempretureAmount).toFixed(1);
+}
 
 /***/ }),
 

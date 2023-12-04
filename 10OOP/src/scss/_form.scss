@@ -1,0 +1,21 @@
+.productFormContainer
+{
+    overflow: hidden;
+    padding: 0;
+    height: max-content;
+    &__title
+    {
+        border-radius: 0;
+        background-color: gainsboro;
+        padding: 0.5rem 1rem;
+    }
+    &__form
+    {
+        padding: 1rem;
+        button
+        {
+            width: 100%;
+            border-radius: 16px;
+        }
+    }
+}

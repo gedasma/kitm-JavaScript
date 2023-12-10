@@ -1,0 +1,43 @@
+@import '../_var.scss';
+@import '../_base.scss';
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0;
+    &__brandName{
+        display: flex;
+        gap: 2.5px;
+        h1{
+            font-family: Inter;
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 29px;
+            letter-spacing: 0em;
+            text-align: left;
+            margin: 0;
+        }
+    }
+    &__menuOptions{
+        display: flex;
+        gap: 50px;
+        a{
+            font-family: Inter;
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+          
+    }
+    &__selectIcons{
+        display: flex;
+        gap: 30px
+    }
+    a:hover {
+        transform: scaleX(1.1);
+
+      }
+    
+}

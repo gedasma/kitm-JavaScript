@@ -1,0 +1,55 @@
+@import '../_base.scss';
+.recipeCard{
+    flex-grow: 1;
+    border-radius: 20px;
+    box-shadow: 0px 4px 30px 0px #0000000D;
+    width: max-content;
+    overflow: hidden;
+    &__visualInfo{
+        position: relative;
+            width: 350px;
+            height: 220px;
+            overflow: hidden;
+        &__image{
+            width: 100%;
+            object-fit: cover;
+        }
+        &__stats{
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            background: #FFFFFFCC;
+            padding: 0.5rem 1.5rem;
+            &__point{
+                display: flex;
+                gap: 0.5rem;
+            }
+        }
+    }
+    &__textInfo{
+        padding: 0.5rem 1rem;
+        h4{
+            font-family: Inter;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 39px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+        a{
+            font-family: Inter;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 19px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #F79F1A;
+            text-decoration: underline;
+        }
+    
+
+    }
+}

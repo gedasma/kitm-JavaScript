@@ -1,0 +1,6 @@
+
+npx create-react-app .
+npm start
+
+npm i sass -- install sass
+npm install react-bootstrap bootstrap

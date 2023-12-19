@@ -1,24 +1,32 @@
 import { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
+import "./menu.scss"
 
-const Menu = (props)=>{
+const Menu = ()=>{
     
-    const [selectedState, setSelectedState] = useState('')
+    const [lastClickedLink, setLastClickedLink] = useState(useLocation().pathname.slice(1));
 
-    const handleChange = (event) =>{
-        setSelectedState(event.target.value)
-        // console.log("display:" + selectedState)
-        props.setDisplayOption(selectedState)
+    const handleLinkClick = (linkName) => {
+        setLastClickedLink(linkName)
+        console.log(lastClickedLink)
     }
-
+    console.log(useLocation())
     return (
         <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off" value="show" onChange = {handleChange} />
-            <label className="btn btn-outline-primary" htmlFor="btnradio1">Rodyti</label>
-        
-            <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" value="add" onChange = {handleChange}/>
-            <label className="btn btn-outline-primary" htmlFor="btnradio2">Prideti</label>
+            <Link
+            to="/show"
+            onClick={() => handleLinkClick("show")}
+            className={"btn btn-outline-primary menuButton" + (lastClickedLink === "show" ? "--lastClicked" : "")} >
+                Galerija
+            </Link>
+
+            <Link
+            to="/add"
+            onClick={() => handleLinkClick("add")}
+            className={"btn btn-outline-primary menuButton" + (lastClickedLink === "add" ? "--lastClicked" : "")} >
+                Prideti
+            </Link>
         </div>
-        
     );
   }
   

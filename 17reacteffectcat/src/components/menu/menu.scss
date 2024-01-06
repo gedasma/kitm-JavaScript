@@ -1,0 +1,12 @@
+.menuButton{
+    &--lastClicked{
+        color: var(--bs-btn-active-color) !important;
+        background-color: var(--bs-btn-active-bg) !important;
+        border-color: var(--bs-btn-active-border-color) !important;
+    }
+    &:hover{
+        color: #fff !important;
+        background-color: #0b5ed7 !important;
+        border-color: #0a58ca !important;
+    }
+}

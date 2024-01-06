@@ -43,12 +43,15 @@ const RecipePage = (props)=>{
             <h2 className='recipePage__name'>{recipeData.meals[0].strMeal}</h2>
             <div className="recipePage__mainInfo">
                 <div className='recipePage__mainInfo__image'><img className='img-fluid object-fit-contain border rounded' src={recipeData.meals[0].strMealThumb} alt="" /></div>
-                <ul className='recipePage__mainInfo__ingredients'>
-                <h3>Ingedrients:</h3>
-                    {ingredientArray.map((ingredient, index)=>
-                        <li key={ingredient} className='recipePage__mainInfo__ingredients__ingredient'>{ingredient + ": " + ingredientMeasurments[index]}</li>
-                    )}
-                </ul>
+                <div className='recipePage__mainInfo__ingredients'>
+                    <h3>Ingredients:</h3>
+                    <ul>
+                        {ingredientArray.map((ingredient, index)=>
+                            <li key={ingredient} className='recipePage__mainInfo__ingredients__ingredient'>{ingredient + ": " + ingredientMeasurments[index]}</li>
+                        )}
+                    </ul>
+                </div>
+                
             </div>
             
             <div className="recipePage__secondaryInfo">

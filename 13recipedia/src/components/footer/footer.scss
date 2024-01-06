@@ -1,0 +1,85 @@
+@import '../_var.scss';
+@import '../_base.scss';
+
+.footer{
+    font-family: Inter;
+    padding: 3rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    &__content{
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        @media(max-width: 1000px){
+            flex-direction: column;
+        }
+        &__links{
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            &__column{
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                h3{
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    line-height: 29px;
+                    letter-spacing: 0px;
+                }
+                ul{
+                    padding: 0;
+                    li{
+                        list-style: none;
+                        font-family: Inter;
+                        font-size: 1rem;
+                        font-weight: 500;
+                        line-height: 19px;
+                        letter-spacing: 0px;
+                        padding-bottom: 0.5rem;
+                        a:hover{
+                            color: $hoverTextColor;
+                        }
+                    }
+                }
+            }
+        }
+        &__signUp{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            width: min-content;
+            h3{
+                width: max-content;
+                font-family: Inter;
+                font-size: 1.5rem;
+                font-weight: 600;
+                line-height: 29px;
+                letter-spacing: 0px;
+                padding-bottom: 1rem;
+            }
+            &__inputs{
+                border-bottom: 1px solid darkgray;
+                padding-bottom: 0.5rem;
+                display: flex;
+                width: max-content;
+                gap: 0.5rem;
+                input{
+                    border: 0;
+                    height: min-content;
+                    align-self: flex-end;
+                }
+                a{
+                    padding: 10px 20px;
+                    h4{
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+    }
+    
+}

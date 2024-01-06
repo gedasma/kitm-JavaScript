@@ -9,6 +9,9 @@
     &__name{
         padding-left: 2rem;
         font-weight: bold;
+        @media(max-width: 1000px){
+            padding-left: 0;
+        }
     }
     &__mainInfo{
         display: flex;
@@ -19,10 +22,16 @@
         &__ingredients{
             font-size: 1.5rem;
             align-self: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            @media(max-width: 1000px){
+                align-self: flex-start;
+            }
             h3{
                 margin: -1.5rem;
-                padding-bottom: 2rem;
                 font-weight: bold;
+                padding-left: 1rem;
             }
         }
         @media(max-width: 1000px){

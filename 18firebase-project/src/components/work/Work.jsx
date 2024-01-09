@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import * as service from "../../services/services"
+import * as service from "../../services/TimesCrudSerivces"
 import { useNavigate } from "react-router-dom";
 
 const Work = (props)=>{

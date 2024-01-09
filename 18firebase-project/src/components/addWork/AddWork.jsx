@@ -1,23 +1,25 @@
 import { Link, Navigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import * as service from "../../services/services"
+import * as service from "../../services/TimesCrudSerivces"
 import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../services/AuthServices";
+import { inputValidation } from "../../utilities/validate";
 
 const AddWork = ()=>{
-    const {id} = useParams();
-    console.log("id is: " + id)
-    const navigate = useNavigate();
 
+    const [user, loading, error] = useAuthState(auth)
+    const {id} = useParams();
+    const navigate = useNavigate();
     const [items, setItems] = useState({
         date:'',
         company:'',
         service:'',
         description:'',
         from:'',
-        to:''
+        to:'',
+        uid:''
     })
-
-    
 
     useEffect(()=>{
         id && service.showById(item=>setItems(item), id)
@@ -25,6 +27,7 @@ const AddWork = ()=>{
 
     const handleChange = (event) =>{
         const { name, value } = event.target;
+        
         setItems({
             ...items,
             [event.target.name]:value
@@ -39,10 +42,15 @@ const AddWork = ()=>{
         }
         else
         {
-            service.addWork(items)
+            service.addWork({
+                ...items,
+                uid:user.uid
+            })
         }
         navigate("/");
     }
+
+    let [isInputInvalid, invalidFieldKey, invalidInputMessage] = inputValidation(items, false)
 
     return(
         <div className="card">
@@ -79,11 +87,8 @@ const AddWork = ()=>{
                         <input type="time" id="to" name="to" value={items.timeTo} onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
-                        {(id)?
-                        <button type="submit">atnaujinti</button>:
-                        <button type="submit">Saugoti</button>
-                        }
-                        
+                        <p className="text-danger">{isInputInvalid? invalidInputMessage : ""}</p>
+                        <button className={"btn btn-primary" + (isInputInvalid ? " disabled" : "")} type="submit">{ id? "Atnaujinti": "Saugoti"}</button>
                     </div>
                 </form>
             </div>

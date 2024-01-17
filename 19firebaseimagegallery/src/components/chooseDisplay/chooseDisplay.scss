@@ -1,0 +1,19 @@
+.displayOptions{
+    display: flex;
+    flex-wrap: wrap;
+    width: 230px;
+    gap: 10px;
+    // justify-content: space-between;
+    div{
+        // align-self: ;
+        flex: 48%; /* 48% to leave some space for margins, borders, etc. */
+        button{
+            height: 62px;
+            width: 68px;
+            margin: 1%; /* Adjust margin as needed */
+            box-sizing: border-box;
+            align-self: flex-start;
+        }
+    }
+    
+}
